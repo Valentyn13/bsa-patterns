@@ -15,7 +15,7 @@ import { Container } from './styled/container';
 import { Header } from './styled/header';
 import { useContext } from 'react';
 import { SocketContext } from '../../context/socket';
-import { CardEvent } from '../../common/enums';
+import { CardEvent, ListEvent } from '../../common/enums';
 
 type Props = {
   listId: string;
@@ -31,6 +31,14 @@ export const Column = ({ listId, listName, cards, index }: Props) => {
     console.log(`List id:${listId}, card name:${name}`)
     socket.emit(CardEvent.CREATE,listId,name)
   }
+
+  const handleDeleteList = () => {
+    socket.emit(ListEvent.DELETE, listId)
+  }
+
+  const handleListTitleChange = (title:string) => {
+    socket.emit(ListEvent.RENAME, listId, title)
+  }
   return (
     <Draggable draggableId={listId} index={index}>
       {(provided: DraggableProvided, snapshot: DraggableStateSnapshot) => (
@@ -43,13 +51,13 @@ export const Column = ({ listId, listName, cards, index }: Props) => {
             <Title
               aria-label={listName}
               title={listName}
-              onChange={() => {}}
+              onChange={handleListTitleChange}
               fontSize="large"
               width={200}
               isBold
             />
             <Splitter />
-            <DeleteButton color="#FFF0" onClick={() => {}} />
+            <DeleteButton color="#FFF0" onClick={handleDeleteList} />
           </Header>
           <CardsList
             listId={listId}
