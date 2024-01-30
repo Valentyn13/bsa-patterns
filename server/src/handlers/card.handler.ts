@@ -11,6 +11,7 @@ export class CardHandler extends SocketHandler {
     socket.on(CardEvent.REORDER, this.reorderCards.bind(this));
     socket.on(CardEvent.CHANGE_DESCRIPTION,this.setCardDescription.bind(this))
     socket.on(CardEvent.RENAME, this.setCardName.bind(this))
+    socket.on(CardEvent.DELETE, this.deleteCard.bind(this))
   }
 
   public createCard(listId: string, cardName: string): void {
@@ -44,6 +45,21 @@ export class CardHandler extends SocketHandler {
     
     this.db.setData(updatedLists);
     this.updateLists();
+  }
+
+  public deleteCard(listId:string, cardId:string){
+    const lists = this.db.getData()
+    const updatedLists = lists.map((list) =>
+    list.id === listId ? this.deleteCardFromList(list,cardId) : list,
+  );
+
+  this.db.setData(updatedLists);
+  this.updateLists();
+  }
+
+  private deleteCardFromList (list:List,cardId:string){
+    list.cards = list.cards.filter(card => card.id !== cardId)
+    return list
   }
 
   private setCardDescriptionInList(list:List, cardId:string, description:string){
