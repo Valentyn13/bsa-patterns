@@ -1,6 +1,7 @@
 const CardEvent = {
   CREATE: "card:create",
   REORDER: "card:reorder",
+  CHANGE_DESCRIPTION: "card:change-description",
 } as const;
 
 export { CardEvent };
