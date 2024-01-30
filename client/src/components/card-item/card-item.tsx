@@ -26,6 +26,11 @@ export const CardItem = ({ listId,card, isDragging, provided }: Props) => {
   const handleCardDescriptionChange = (description:string) =>{
     socket.emit(CardEvent.CHANGE_DESCRIPTION,listId,card.id, description)
   }
+
+  const handleTitleChange = (title:string) =>{
+    socket.emit(CardEvent.RENAME,listId, card.id,title)
+  }
+
   return (
     <Container
       className="card-container"
@@ -39,7 +44,7 @@ export const CardItem = ({ listId,card, isDragging, provided }: Props) => {
     >
       <Content>
         <Title
-          onChange={() => {}}
+          onChange={handleTitleChange}
           title={card.name}
           fontSize="large"
           isBold
