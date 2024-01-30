@@ -7,13 +7,14 @@ import { Cards } from './cards';
 type Props = {
   dropProvided: DroppableProvided;
   cards: Card[];
+  listId: string;
 };
 
-const List = ({ cards, dropProvided }: Props) => {
+const List = ({ listId, cards, dropProvided }: Props) => {
   return (
     <div className="list-container">
       <DropZone ref={dropProvided.innerRef}>
-        <Cards cards={cards} />
+        <Cards listId={listId} cards={cards} />
         {dropProvided.placeholder}
       </DropZone>
     </div>

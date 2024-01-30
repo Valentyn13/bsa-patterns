@@ -13,6 +13,9 @@ import { Title } from '../primitives/title';
 import { Footer } from './components/footer';
 import { Container } from './styled/container';
 import { Header } from './styled/header';
+import { useContext } from 'react';
+import { SocketContext } from '../../context/socket';
+import { CardEvent } from '../../common/enums';
 
 type Props = {
   listId: string;
@@ -22,6 +25,12 @@ type Props = {
 };
 
 export const Column = ({ listId, listName, cards, index }: Props) => {
+  const socket = useContext(SocketContext)
+
+  const handleCreateCard = (name:string) => {
+    console.log(`List id:${listId}, card name:${name}`)
+    socket.emit(CardEvent.CREATE,listId,name)
+  }
   return (
     <Draggable draggableId={listId} index={index}>
       {(provided: DraggableProvided, snapshot: DraggableStateSnapshot) => (
@@ -50,7 +59,7 @@ export const Column = ({ listId, listName, cards, index }: Props) => {
             }}
             cards={cards}
           />
-          <Footer onCreateCard={() => {}} />
+          <Footer onCreateCard={handleCreateCard} />
         </Container>
       )}
     </Draggable>
