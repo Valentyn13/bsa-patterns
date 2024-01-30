@@ -15,6 +15,10 @@ class Card {
     this.createdAt = new Date();
     this.id = randomUUID();
   }
+
+  public clone(){
+    return new Card(this.name, this.description)
+  }
 }
 
 export { Card };

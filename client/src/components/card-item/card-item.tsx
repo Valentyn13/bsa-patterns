@@ -35,6 +35,10 @@ export const CardItem = ({ listId,card, isDragging, provided }: Props) => {
     socket.emit(CardEvent.DELETE,listId,card.id)
   }
 
+  const handleDuplicateCard = ()=>{
+    socket.emit(CardEvent.DUPLICATE,listId, card.id)
+  }
+
   return (
     <Container
       className="card-container"
@@ -57,7 +61,7 @@ export const CardItem = ({ listId,card, isDragging, provided }: Props) => {
         <Footer>
           <DeleteButton onClick={handleDeleteCard} />
           <Splitter />
-          <CopyButton onClick={() => {}} />
+          <CopyButton onClick={handleDuplicateCard} />
         </Footer>
       </Content>
     </Container>
