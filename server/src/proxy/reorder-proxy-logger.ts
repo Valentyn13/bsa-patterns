@@ -1,11 +1,42 @@
 import { List } from "../data/models/list";
+import { write } from "../helpers/file.helpers";
+import { Events } from "../observer/observer";
 import { ReorderService } from "../services/reorder.service";
+
+type ConfigureLogData = {
+    initiator:string;
+    eventType:Events
+    sourceIndex: number;
+    destinationIndex: number;
+    sourceListId: string;
+    destinationListId: string;
+} | {
+    initiator:string;
+    eventType:Events;
+    startIndex: number;
+    endIndex: number;
+}
 
 class ProxyReorderLogger extends ReorderService {
   reorderService: ReorderService;
-  constructor(reorderService: ReorderService) {
+  filePath:string
+  constructor(reorderService: ReorderService, filePath) {
     super();
     this.reorderService = reorderService;
+    this.filePath = filePath
+  }
+
+  private configureLog(props:ConfigureLogData){
+    let message = ''
+    const TAB = '   '
+    const timeStamp = new Date().toISOString()
+    message += timeStamp + TAB
+    for(const prop in props){
+        message+= `${prop}:${props[prop]}${TAB}`
+    }
+    message+='REORDER \n'
+    console.log(message)
+    write(this.filePath,message)
   }
 
   public reorderCards({
@@ -21,7 +52,8 @@ class ProxyReorderLogger extends ReorderService {
     sourceListId: string;
     destinationListId: string;
   }): List[] {
-    console.log('Logg reorder 1')
+    
+    this.configureLog({initiator:'ReorderService.reorderCards',eventType:'info', sourceIndex, destinationIndex,sourceListId,destinationListId})
     return this.reorderService.reorderCards({
         lists,
         sourceIndex,
@@ -32,7 +64,7 @@ class ProxyReorderLogger extends ReorderService {
   }
 
    public reorder<T>(items: T[], startIndex: number, endIndex: number): T[] {
-      console.log('Logg reorder 2')
+      this.configureLog({initiator:'ReorderService.reorder',eventType:'info', startIndex,endIndex})
       return this.reorderService.reorder(items, startIndex, endIndex)
   }
 }

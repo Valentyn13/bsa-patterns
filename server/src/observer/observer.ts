@@ -1,7 +1,7 @@
 import { randomUUID } from "crypto";
 import { write } from "../helpers/file.helpers";
 
-type Events = 'info' | 'warning'| 'error'
+export type Events = 'info' | 'warning'| 'error'
 
 export interface ILogInputData {
     initiator:string,
@@ -52,7 +52,7 @@ class FileObserver implements IObserver {
     private configureLog(data: ILogInputData){
         const {initiator, eventType, message} = data
         const timeStamp = new Date().toISOString()
-        return `${timeStamp}    ${initiator}    ${eventType}    ${message}\n`
+        return `${timeStamp}    initiator:${initiator}    eventType:${eventType}    ${message}\n`
     }
 
     private writeToFile(message:string){

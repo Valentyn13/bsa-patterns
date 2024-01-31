@@ -21,15 +21,17 @@ const io = new Server(httpServer, {
   },
 });
 
+const date = formatDate(new Date().toISOString())
+
+const logPath = path.join(__dirname,'logs',`${date}.txt`)
+
 const db = Database.Instance;
-const reorderService = new ProxyReorderLogger(new ReorderService());
+const reorderService = new ProxyReorderLogger(new ReorderService(),logPath);
 
 if (process.env.NODE_ENV !== "production") {
   db.setData(lists);
 }
-const date = formatDate(new Date().toISOString())
 
-const logPath = path.join(__dirname,'logs',`${date}.txt`)
 
 const listHandler = new ListHandler(io, db, reorderService)
 const cardHandler = new CardHandler(io, db, reorderService)

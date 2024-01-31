@@ -32,7 +32,6 @@ export class ListHandler extends SocketHandler {
     const lists = this.db.getData();
     const list = lists.find(list => list.id === listId)
     list.name = title
-    //this.db.setData(lists);
     this.updateLists();
   }
 
