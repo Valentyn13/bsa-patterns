@@ -19,8 +19,14 @@ export const Text = ({ onChange, text }: Props) => {
 
   const onEdit = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setValue(e.target.value);
-    onChange(e.target.value);
   };
+
+  const handleEnterKeyDown = (e:React.KeyboardEvent<HTMLTextAreaElement>) =>{
+    if(e.key ==='Enter'){
+      onChange(value)
+      e.currentTarget.blur()
+    }
+  }
 
   return (
     <TextContainer className="text-container" ref={ref}>
@@ -28,6 +34,7 @@ export const Text = ({ onChange, text }: Props) => {
         <TextInput
           className="text-input"
           value={value}
+          onKeyDown={handleEnterKeyDown}
           onChange={onEdit}
           onBlur={() => setIsComponentVisible(false)}
           autoFocus={isComponentVisible}

@@ -13,7 +13,7 @@ import { Title } from '../primitives/title';
 import { Footer } from './components/footer';
 import { Container } from './styled/container';
 import { Header } from './styled/header';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { SocketContext } from '../../context/socket';
 import { CardEvent, ListEvent } from '../../common/enums';
 
@@ -36,7 +36,9 @@ export const Column = ({ listId, listName, cards, index }: Props) => {
   const handleDeleteList = () => {
     socket.emit(ListEvent.DELETE, listId)
   }
-
+const handleTitleChange = (title:string) => {
+  socket.emit(ListEvent.RENAME, listId, title)
+}
 
   return (
     <Draggable draggableId={listId} index={index}>
@@ -48,6 +50,7 @@ export const Column = ({ listId, listName, cards, index }: Props) => {
             {...provided.dragHandleProps}
           >
             <Title
+              onChange={handleTitleChange}
               aria-label={listName}
               title={listName}
               fontSize="large"

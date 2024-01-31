@@ -52,6 +52,7 @@ export const CardItem = ({ listId,card, isDragging, provided }: Props) => {
     >
       <Content>
         <Title
+          listId={listId}
           onChange={handleTitleChange}
           title={card.name}
           fontSize="large"

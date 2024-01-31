@@ -13,7 +13,7 @@ type Props = {
   title: string;
   width?: number;
   listId:string
-  onChange?: (value: string) => void;
+  onChange: (title:string) => void;
 };
 
 export const Title = ({ onChange, title, fontSize, isBold, listId, width }: Props) => {
@@ -27,13 +27,12 @@ export const Title = ({ onChange, title, fontSize, isBold, listId, width }: Prop
 
   const handleEnterKeyDown = (e:React.KeyboardEvent<HTMLInputElement>) =>{
     if(e.key ==='Enter'){
-      socket.emit(ListEvent.RENAME, listId, value)
+      onChange(value)
       e.currentTarget.blur()
     }
   }
   const handleOnBlur = () =>{
     setIsComponentVisible(false)
-    socket.emit(ListEvent.RENAME, listId, value)
   }
 
   const onEdit = (e: ChangeEvent<HTMLInputElement>) => {
