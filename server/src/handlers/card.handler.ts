@@ -25,6 +25,7 @@ export class CardHandler extends SocketHandler {
 
     this.db.setData(updatedLists);
     this.updateLists();
+    this.notifyObservers({initiator:'CardHandler.crateCard',eventType:'info',message:`Card listId:${listId} cardId:${newCard.id} CREATED`})
   }
 
   public setCardDescription(listId:string,cardId:string, description:string){
@@ -36,6 +37,7 @@ export class CardHandler extends SocketHandler {
     
     this.db.setData(updatedLists);
     this.updateLists();
+    this.notifyObservers({initiator:'CardHandler.setCardDescription',eventType:'info',message:`Card listId:${listId} cardId:${cardId} CARD DESCRIPTION CHANGED`})
   }
   public setCardName(listId:string,cardId:string, name:string){
     const lists = this.db.getData()
@@ -46,6 +48,7 @@ export class CardHandler extends SocketHandler {
     
     this.db.setData(updatedLists);
     this.updateLists();
+    this.notifyObservers({initiator:'CardHandler.setCardName',eventType:'info',message:`Card listId:${listId} cardId:${cardId} CARD NAME CHANGED`})
   }
 
   public deleteCard(listId:string, cardId:string){
@@ -56,6 +59,7 @@ export class CardHandler extends SocketHandler {
 
   this.db.setData(updatedLists);
   this.updateLists();
+  this.notifyObservers({initiator:'CardHandler.deleteCard',eventType:'info',message:`Card listId:${listId} cardId:${cardId} CARD DELTED`})
   }
 
   public duplicateCard(listId:string ,cardId:string){
@@ -66,6 +70,7 @@ export class CardHandler extends SocketHandler {
     const duplicat = card.clone()
     list.cards.splice(index+1,0,duplicat)
     this.updateLists();
+    this.notifyObservers({initiator:'CardHandler.duplicateCard',eventType:'info',message:`Card listId:${listId} cardId:${cardId} CARD WAS DUPLICATED`})
   }
 
   private deleteCardFromList (list:List,cardId:string){
@@ -113,5 +118,6 @@ export class CardHandler extends SocketHandler {
     });
     this.db.setData(reordered);
     this.updateLists();
+    this.notifyObservers({initiator:'CardHandler.reorderCards',eventType:'info',message: `CARDS WERE REORDERED`})
   }
 }
