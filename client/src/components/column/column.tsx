@@ -13,7 +13,7 @@ import { Title } from '../primitives/title';
 import { Footer } from './components/footer';
 import { Container } from './styled/container';
 import { Header } from './styled/header';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { SocketContext } from '../../context/socket';
 import { CardEvent, ListEvent } from '../../common/enums';
 
@@ -27,6 +27,7 @@ type Props = {
 export const Column = ({ listId, listName, cards, index }: Props) => {
   const socket = useContext(SocketContext)
 
+
   const handleCreateCard = (name:string) => {
     console.log(`List id:${listId}, card name:${name}`)
     socket.emit(CardEvent.CREATE,listId,name)
@@ -36,9 +37,7 @@ export const Column = ({ listId, listName, cards, index }: Props) => {
     socket.emit(ListEvent.DELETE, listId)
   }
 
-  const handleListTitleChange = (title:string) => {
-    socket.emit(ListEvent.RENAME, listId, title)
-  }
+
   return (
     <Draggable draggableId={listId} index={index}>
       {(provided: DraggableProvided, snapshot: DraggableStateSnapshot) => (
@@ -51,9 +50,9 @@ export const Column = ({ listId, listName, cards, index }: Props) => {
             <Title
               aria-label={listName}
               title={listName}
-              onChange={handleListTitleChange}
               fontSize="large"
               width={200}
+              listId={listId}
               isBold
             />
             <Splitter />
