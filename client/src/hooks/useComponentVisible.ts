@@ -1,13 +1,12 @@
 import type { Dispatch, RefObject, SetStateAction } from 'react';
 import { useEffect, useRef, useState } from 'react';
 
-export function useComponentVisible(initialIsVisible = false): {
+function useComponentVisible(initialIsVisible = false): {
   ref: RefObject<HTMLDivElement>;
   isComponentVisible: boolean;
   setIsComponentVisible: Dispatch<SetStateAction<boolean>>;
 } {
-  const [isComponentVisible, setIsComponentVisible] =
-    useState(initialIsVisible);
+  const [isComponentVisible, setIsComponentVisible] = useState(initialIsVisible);
   const ref = useRef<HTMLDivElement>(null);
 
   const handleHideDropdown = (event: KeyboardEvent): void => {
@@ -34,3 +33,5 @@ export function useComponentVisible(initialIsVisible = false): {
 
   return { ref, isComponentVisible, setIsComponentVisible };
 }
+
+export default useComponentVisible;

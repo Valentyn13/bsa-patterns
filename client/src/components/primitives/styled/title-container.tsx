@@ -5,4 +5,4 @@ const TitleContainer = styled.div`
   align-items: center;
 `;
 
-export { TitleContainer };
+export default TitleContainer;

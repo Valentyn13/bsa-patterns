@@ -6,4 +6,4 @@ const ScrollContainer = styled.div`
   max-height: 80vh;
 `;
 
-export { ScrollContainer };
+export default ScrollContainer;

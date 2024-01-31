@@ -7,4 +7,4 @@ const DropZone = styled.div`
   padding-bottom: ${SPACE_IN_PX}px;
 `;
 
-export { DropZone };
+export default DropZone;

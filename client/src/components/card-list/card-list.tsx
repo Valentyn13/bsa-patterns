@@ -1,14 +1,15 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import type {
   DroppableProvided,
   DroppableStateSnapshot,
 } from '@hello-pangea/dnd';
 import { Droppable } from '@hello-pangea/dnd';
-import { CSSProperties } from 'react';
+import React, { CSSProperties } from 'react';
 
 import type { Card } from '../../common/types';
-import { List } from './components/list';
-import { ListWrapper } from './styled/list-wrapper';
-import { ScrollContainer } from './styled/scroll-container';
+import List from './components/list';
+import ListWrapper from './styled/list-wrapper';
+import ScrollContainer from './styled/scroll-container';
 
 type Props = {
   listId: string;
@@ -17,7 +18,9 @@ type Props = {
   style: CSSProperties;
 };
 
-const CardsList = ({ listId, listType, style, cards }: Props) => {
+function CardsList({
+  listId, listType, style, cards,
+}: Props) {
   return (
     <Droppable droppableId={listId} type={listType}>
       {(
@@ -37,6 +40,6 @@ const CardsList = ({ listId, listType, style, cards }: Props) => {
       )}
     </Droppable>
   );
-};
+}
 
-export { CardsList };
+export default CardsList;

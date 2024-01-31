@@ -15,4 +15,4 @@ const BasicText = styled.div`
   }
 `;
 
-export { BasicText };
+export default BasicText;

@@ -1,39 +1,39 @@
-import { ChangeEvent, useContext, useEffect, useState } from 'react';
+/* eslint-disable react/require-default-props */
+import React, {
+  ChangeEvent, useEffect, useState,
+} from 'react';
 
-import { useComponentVisible } from '../../hooks/useComponentVisible';
-import { BasicTitle } from './styled/basic-title';
-import { TitleContainer } from './styled/title-container';
-import { TitleInput } from './styled/title-input';
-import { SocketContext } from '../../context/socket';
-import { ListEvent } from '../../common/enums';
+import useComponentVisible from '../../hooks/useComponentVisible';
+import BasicTitle from './styled/basic-title';
+import TitleContainer from './styled/title-container';
+import TitleInput from './styled/title-input';
 
 type Props = {
-  fontSize: "x-large" | "large" | "medium";
+  fontSize: 'x-large' | 'large' | 'medium';
   isBold?: boolean;
   title: string;
   width?: number;
-  listId:string
   onChange: (title:string) => void;
 };
 
-export const Title = ({ onChange, title, fontSize, isBold, listId, width }: Props) => {
-  const { ref, isComponentVisible, setIsComponentVisible } =
-    useComponentVisible(false);
-  const socket = useContext(SocketContext)
+function Title({
+  onChange, title, fontSize, isBold, width,
+}: Props) {
+  const { ref, isComponentVisible, setIsComponentVisible } = useComponentVisible(false);
 
   const [value, setValue] = useState(title);
 
   useEffect(() => setValue(title), [title]);
 
-  const handleEnterKeyDown = (e:React.KeyboardEvent<HTMLInputElement>) =>{
-    if(e.key ==='Enter'){
-      onChange(value)
-      e.currentTarget.blur()
+  const handleEnterKeyDown = (e:React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      onChange(value);
+      e.currentTarget.blur();
     }
-  }
-  const handleOnBlur = () =>{
-    setIsComponentVisible(false)
-  }
+  };
+  const handleOnBlur = () => {
+    setIsComponentVisible(false);
+  };
 
   const onEdit = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
@@ -63,4 +63,6 @@ export const Title = ({ onChange, title, fontSize, isBold, listId, width }: Prop
       )}
     </TitleContainer>
   );
-};
+}
+
+export default Title;

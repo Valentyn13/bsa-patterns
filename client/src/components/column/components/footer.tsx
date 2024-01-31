@@ -1,16 +1,17 @@
-import { CreatorInput } from '../../primitives/creator-input';
-import { FooterContainer } from '../styled/footer-container';
+import React from 'react';
+import CreatorInput from '../../primitives/creator-input';
+import FooterContainer from '../styled/footer-container';
 
 type Props = {
   onCreateCard: (name: string) => void;
 };
 
-const Footer = ({ onCreateCard }: Props) => {
+function Footer({ onCreateCard }: Props) {
   return (
     <FooterContainer className="column-footer-container">
       <CreatorInput onSubmit={onCreateCard} />
     </FooterContainer>
   );
-};
+}
 
-export { Footer };
+export default Footer;

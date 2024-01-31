@@ -1,7 +1,8 @@
-import { Card } from '../data/models/card';
-import { List } from '../data/models/list';
+/* eslint-disable class-methods-use-this */
+import Card from '../data/models/card';
+import List from '../data/models/list';
 
-export class ReorderService {
+class ReorderService {
   public reorder<T>(items: T[], startIndex: number, endIndex: number): T[] {
     const card = items[startIndex];
     const listWithRemoved = this.remove(items, startIndex);
@@ -53,3 +54,5 @@ export class ReorderService {
     return [...items.slice(0, index), value, ...items.slice(index)];
   }
 }
+
+export default ReorderService;

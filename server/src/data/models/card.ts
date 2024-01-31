@@ -16,9 +16,9 @@ class Card {
     this.id = randomUUID();
   }
 
-  public clone(){
-    return new Card(this.name, this.description)
+  public clone() {
+    return new Card(this.name, this.description);
   }
 }
 
-export { Card };
+export default Card;

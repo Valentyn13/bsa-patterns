@@ -1,15 +1,16 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import type { DraggableProvided } from '@hello-pangea/dnd';
 
+import React, { useContext } from 'react';
 import type { Card } from '../../common/types';
-import { CopyButton } from '../primitives/copy-button';
-import { DeleteButton } from '../primitives/delete-button';
-import { Splitter } from '../primitives/styled/splitter';
-import { Text } from '../primitives/text';
-import { Title } from '../primitives/title';
-import { Container } from './styled/container';
-import { Content } from './styled/content';
-import { Footer } from './styled/footer';
-import { useContext } from 'react';
+import CopyButton from '../primitives/copy-button';
+import DeleteButton from '../primitives/delete-button';
+import Splitter from '../primitives/styled/splitter';
+import Text from '../primitives/text';
+import Title from '../primitives/title';
+import Container from './styled/container';
+import Content from './styled/content';
+import Footer from './styled/footer';
 import { SocketContext } from '../../context/socket';
 import { CardEvent } from '../../common/enums';
 
@@ -20,24 +21,26 @@ type Props = {
   provided: DraggableProvided;
 };
 
-export const CardItem = ({ listId,card, isDragging, provided }: Props) => {
-  const socket = useContext(SocketContext)
+function CardItem({
+  listId, card, isDragging, provided,
+}: Props) {
+  const socket = useContext(SocketContext);
 
-  const handleCardDescriptionChange = (description:string) =>{
-    socket.emit(CardEvent.CHANGE_DESCRIPTION,listId,card.id, description)
-  }
+  const handleCardDescriptionChange = (description:string) => {
+    socket.emit(CardEvent.CHANGE_DESCRIPTION, listId, card.id, description);
+  };
 
-  const handleTitleChange = (title:string) =>{
-    socket.emit(CardEvent.RENAME,listId, card.id,title)
-  }
+  const handleTitleChange = (title:string) => {
+    socket.emit(CardEvent.RENAME, listId, card.id, title);
+  };
 
-  const handleDeleteCard = () =>{
-    socket.emit(CardEvent.DELETE,listId,card.id)
-  }
+  const handleDeleteCard = () => {
+    socket.emit(CardEvent.DELETE, listId, card.id);
+  };
 
-  const handleDuplicateCard = ()=>{
-    socket.emit(CardEvent.DUPLICATE,listId, card.id)
-  }
+  const handleDuplicateCard = () => {
+    socket.emit(CardEvent.DUPLICATE, listId, card.id);
+  };
 
   return (
     <Container
@@ -52,7 +55,6 @@ export const CardItem = ({ listId,card, isDragging, provided }: Props) => {
     >
       <Content>
         <Title
-          listId={listId}
           onChange={handleTitleChange}
           title={card.name}
           fontSize="large"
@@ -67,4 +69,6 @@ export const CardItem = ({ listId,card, isDragging, provided }: Props) => {
       </Content>
     </Container>
   );
-};
+}
+
+export default CardItem;

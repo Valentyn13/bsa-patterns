@@ -25,8 +25,7 @@ type Props = DroppableProvidedProps & {
 };
 
 const ListWrapper = styled.div<Props>`
-  background-color: ${(props) =>
-    getBackgroundColor(props.isDraggingOver, props.isDraggingFrom)};
+  background-color: ${(props) => getBackgroundColor(props.isDraggingOver, props.isDraggingFrom)};
   display: flex;
   flex-direction: column;
   opacity: inherit;
@@ -38,4 +37,4 @@ const ListWrapper = styled.div<Props>`
   width: 300px;
 `;
 
-export { ListWrapper };
+export default ListWrapper;

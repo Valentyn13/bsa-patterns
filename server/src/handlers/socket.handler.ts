@@ -1,9 +1,9 @@
 import { Server, Socket } from 'socket.io';
 
 import { ListEvent } from '../common/enums';
-import { Database } from '../data/database';
-import { ReorderService } from '../services/reorder.service';
-import { Subject } from '../observer/subject';
+import Database from '../data/database';
+import ReorderService from '../services/reorder.service';
+import Subject from '../observer/subject';
 
 abstract class SocketHandler extends Subject {
   protected db: Database;
@@ -26,4 +26,4 @@ abstract class SocketHandler extends Subject {
   }
 }
 
-export { SocketHandler };
+export default SocketHandler;

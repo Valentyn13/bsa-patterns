@@ -1,14 +1,16 @@
+/* eslint-disable react/require-default-props */
+import React from 'react';
 import { colors } from '@atlaskit/theme';
 
-import { Icon } from '../icon/icon';
-import { Button } from './styled/button';
+import Icon from '../icon/icon';
+import Button from './styled/button';
 
 type Props = {
   onClick: () => void;
   color?: string;
 };
 
-const DeleteButton = ({ onClick, color }: Props) => {
+function DeleteButton({ onClick, color }: Props) {
   return (
     <Button
       className="delete-btn"
@@ -18,6 +20,6 @@ const DeleteButton = ({ onClick, color }: Props) => {
       <Icon iconName="delete" />
     </Button>
   );
-};
+}
 
-export { DeleteButton };
+export default DeleteButton;

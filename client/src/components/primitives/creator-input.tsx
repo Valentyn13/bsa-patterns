@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 
-import { AddButton } from './add-button';
-import { Input } from './styled/input';
+import AddButton from './add-button';
+import Input from './styled/input';
 
 type Props = {
   onSubmit: (value: string) => void;
 };
 
-const CreatorInput = ({ onSubmit }: Props) => {
+function CreatorInput({ onSubmit }: Props) {
   const [name, setName] = useState('');
 
   const onClick = () => {
@@ -16,7 +16,7 @@ const CreatorInput = ({ onSubmit }: Props) => {
   };
 
   return (
-    <React.Fragment>
+    <>
       <Input
         className="creator-input"
         value={name}
@@ -25,8 +25,8 @@ const CreatorInput = ({ onSubmit }: Props) => {
         width={250}
       />
       <AddButton onClick={onClick} />
-    </React.Fragment>
+    </>
   );
-};
+}
 
-export { CreatorInput };
+export default CreatorInput;

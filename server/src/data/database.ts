@@ -1,4 +1,4 @@
-import { List } from './models/list';
+import List from './models/list';
 
 class Database {
   private static instance: Database | null = null;
@@ -26,4 +26,4 @@ class Database {
   }
 }
 
-export { Database };
+export default Database;

@@ -1,100 +1,104 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable class-methods-use-this */
 import type { Socket } from 'socket.io';
 
 import { CardEvent } from '../common/enums';
-import { Card } from '../data/models/card';
-import { SocketHandler } from './socket.handler';
-import { List } from '../data/models/list';
+import Card from '../data/models/card';
+import SocketHandler from './socket.handler';
+import List from '../data/models/list';
 
-export class CardHandler extends SocketHandler {
+class CardHandler extends SocketHandler {
   public handleConnection(socket: Socket): void {
     socket.on(CardEvent.CREATE, this.createCard.bind(this));
     socket.on(CardEvent.REORDER, this.reorderCards.bind(this));
-    socket.on(CardEvent.CHANGE_DESCRIPTION,this.setCardDescription.bind(this))
-    socket.on(CardEvent.RENAME, this.setCardName.bind(this))
-    socket.on(CardEvent.DELETE, this.deleteCard.bind(this))
-    socket.on(CardEvent.DUPLICATE, this.duplicateCard.bind(this))
+    socket.on(CardEvent.CHANGE_DESCRIPTION, this.setCardDescription.bind(this));
+    socket.on(CardEvent.RENAME, this.setCardName.bind(this));
+    socket.on(CardEvent.DELETE, this.deleteCard.bind(this));
+    socket.on(CardEvent.DUPLICATE, this.duplicateCard.bind(this));
   }
 
   public createCard(listId: string, cardName: string): void {
     const newCard = new Card(cardName, '');
     const lists = this.db.getData();
 
-    const updatedLists = lists.map((list) =>
-      list.id === listId ? list.setCards(list.cards.concat(newCard)) : list,
-    );
+    const updatedLists = lists.map((list) => (
+      list.id === listId ? list.setCards(list.cards.concat(newCard)) : list
+    ));
 
     this.db.setData(updatedLists);
     this.updateLists();
-    this.notifyObservers({initiator:'CardHandler.crateCard',eventType:'info',message:`Card listId:${listId} cardId:${newCard.id} CARD WAS CREATED`})
+    this.notifyObservers({ initiator: 'CardHandler.crateCard', eventType: 'info', message: `Card listId:${listId} cardId:${newCard.id} CARD WAS CREATED` });
   }
 
-  public setCardDescription(listId:string,cardId:string, description:string){
-    const lists = this.db.getData()
+  public setCardDescription(listId:string, cardId:string, description:string) {
+    const lists = this.db.getData();
 
-    const updatedLists = lists.map((list) =>
-    list.id === listId ? this.setCardDescriptionInList(list, cardId,description) : list,
-  );
-    
+    const updatedLists = lists.map((list) => (
+      list.id === listId ? this.setCardDescriptionInList(list, cardId, description) : list
+    ));
+
     this.db.setData(updatedLists);
     this.updateLists();
-    this.notifyObservers({initiator:'CardHandler.setCardDescription',eventType:'info',message:`Card listId:${listId} cardId:${cardId} CARD DESCRIPTION WAS CHANGED`})
+    this.notifyObservers({ initiator: 'CardHandler.setCardDescription', eventType: 'info', message: `Card listId:${listId} cardId:${cardId} CARD DESCRIPTION WAS CHANGED` });
   }
-  public setCardName(listId:string,cardId:string, name:string){
-    const lists = this.db.getData()
 
-    const updatedLists = lists.map((list) =>
-    list.id === listId ? this.setCardNameInList(list, cardId,name) : list,
-  );
-    
+  public setCardName(listId:string, cardId:string, name:string) {
+    const lists = this.db.getData();
+
+    const updatedLists = lists.map((list) => (
+      list.id === listId ? this.setCardNameInList(list, cardId, name) : list
+    ));
+
     this.db.setData(updatedLists);
     this.updateLists();
-    this.notifyObservers({initiator:'CardHandler.setCardName',eventType:'info',message:`Card listId:${listId} cardId:${cardId} CARD NAME WAS CHANGED`})
+    this.notifyObservers({ initiator: 'CardHandler.setCardName', eventType: 'info', message: `Card listId:${listId} cardId:${cardId} CARD NAME WAS CHANGED` });
   }
 
-  public deleteCard(listId:string, cardId:string){
-    const lists = this.db.getData()
-    const updatedLists = lists.map((list) =>
-    list.id === listId ? this.deleteCardFromList(list,cardId) : list,
-  );
+  public deleteCard(listId:string, cardId:string) {
+    const lists = this.db.getData();
+    const updatedLists = lists.map((list) => (
+      list.id === listId ? this.deleteCardFromList(list, cardId) : list
+    ));
 
-  this.db.setData(updatedLists);
-  this.updateLists();
-  this.notifyObservers({initiator:'CardHandler.deleteCard',eventType:'info',message:`Card listId:${listId} cardId:${cardId} CARD WAS DELTED`})
-  }
-
-  public duplicateCard(listId:string ,cardId:string){
-    const lists = this.db.getData()
-    const list = lists.find(list => list.id === listId)
-    const index = list.cards.findIndex((card => card.id === cardId))
-    const card = list.cards.find(card => card.id === cardId)
-    const duplicat = card.clone()
-    list.cards.splice(index+1,0,duplicat)
+    this.db.setData(updatedLists);
     this.updateLists();
-    this.notifyObservers({initiator:'CardHandler.duplicateCard',eventType:'info',message:`Card listId:${listId} cardId:${cardId} CARD WAS DUPLICATED`})
+    this.notifyObservers({ initiator: 'CardHandler.deleteCard', eventType: 'info', message: `Card listId:${listId} cardId:${cardId} CARD WAS DELTED` });
   }
 
-  private deleteCardFromList (list:List,cardId:string){
-    list.cards = list.cards.filter(card => card.id !== cardId)
-    return list
+  public duplicateCard(listId:string, cardId:string) {
+    const lists = this.db.getData();
+    const list = lists.find((listItem) => listItem.id === listId);
+    const index = list.cards.findIndex(((card) => card.id === cardId));
+    const card = list.cards.find((cardItem) => cardItem.id === cardId);
+    const duplicat = card.clone();
+    list.cards.splice(index + 1, 0, duplicat);
+    this.updateLists();
+    this.notifyObservers({ initiator: 'CardHandler.duplicateCard', eventType: 'info', message: `Card listId:${listId} cardId:${cardId} CARD WAS DUPLICATED` });
   }
 
-  private setCardDescriptionInList(list:List, cardId:string, description:string){
-    list.cards.map((card) =>{
-      if(card.id === cardId){
-        card.description = description
+  private deleteCardFromList(list:List, cardId:string) {
+    list.cards = list.cards.filter((card) => card.id !== cardId);
+    return list;
+  }
+
+  private setCardDescriptionInList(list:List, cardId:string, description:string) {
+    list.cards.map((card) => {
+      if (card.id === cardId) {
+        card.description = description;
       }
-      return card
-    })
-    return list
+      return card;
+    });
+    return list;
   }
-  private setCardNameInList(list:List, cardId:string, name:string){
-    list.cards.map((card) =>{
-      if(card.id === cardId){
-        card.name = name
+
+  private setCardNameInList(list:List, cardId:string, name:string) {
+    list.cards.map((card) => {
+      if (card.id === cardId) {
+        card.name = name;
       }
-      return card
-    })
-    return list
+      return card;
+    });
+    return list;
   }
 
   private reorderCards({
@@ -118,6 +122,8 @@ export class CardHandler extends SocketHandler {
     });
     this.db.setData(reordered);
     this.updateLists();
-    this.notifyObservers({initiator:'CardHandler.reorderCards',eventType:'info',message: `CARD WAS REORDERED`})
+    this.notifyObservers({ initiator: 'CardHandler.reorderCards', eventType: 'info', message: 'CARD WAS REORDERED' });
   }
 }
+
+export default CardHandler;

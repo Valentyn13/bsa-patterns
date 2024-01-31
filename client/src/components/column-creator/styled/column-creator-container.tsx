@@ -8,4 +8,4 @@ const ColumnCreatorContainer = styled.div`
   padding: 8px;
 `;
 
-export { ColumnCreatorContainer };
+export default ColumnCreatorContainer;

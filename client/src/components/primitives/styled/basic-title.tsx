@@ -14,4 +14,4 @@ const BasicTitle = styled.h3`
   }
 `;
 
-export { BasicTitle };
+export default BasicTitle;

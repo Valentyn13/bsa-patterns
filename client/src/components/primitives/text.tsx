@@ -1,18 +1,16 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 
-import { useComponentVisible } from '../../hooks/useComponentVisible';
-import { BasicText } from './styled/basic-text';
-import { TextContainer } from './styled/text-container';
-import { TextInput } from './styled/text-input';
+import useComponentVisible from '../../hooks/useComponentVisible';
+import BasicText from './styled/basic-text';
+import TextContainer from './styled/text-container';
+import TextInput from './styled/text-input';
 
 type Props = {
   text: string;
   onChange: (value: string) => void;
 };
-
-export const Text = ({ onChange, text }: Props) => {
-  const { ref, isComponentVisible, setIsComponentVisible } =
-    useComponentVisible(false);
+function Text({ onChange, text }: Props) {
+  const { ref, isComponentVisible, setIsComponentVisible } = useComponentVisible(false);
   const [value, setValue] = useState(text);
 
   useEffect(() => setValue(text), [text]);
@@ -21,12 +19,12 @@ export const Text = ({ onChange, text }: Props) => {
     setValue(e.target.value);
   };
 
-  const handleEnterKeyDown = (e:React.KeyboardEvent<HTMLTextAreaElement>) =>{
-    if(e.key ==='Enter'){
-      onChange(value)
-      e.currentTarget.blur()
+  const handleEnterKeyDown = (e:React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter') {
+      onChange(value);
+      e.currentTarget.blur();
     }
-  }
+  };
 
   return (
     <TextContainer className="text-container" ref={ref}>
@@ -49,4 +47,6 @@ export const Text = ({ onChange, text }: Props) => {
       )}
     </TextContainer>
   );
-};
+}
+
+export default Text;

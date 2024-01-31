@@ -8,4 +8,4 @@ const Footer = styled.div`
   align-items: center;
 `;
 
-export { Footer };
+export default Footer;

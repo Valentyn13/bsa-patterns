@@ -1,63 +1,43 @@
-import { randomUUID } from "crypto";
-import { write } from "../helpers/file.helpers";
+/* eslint-disable class-methods-use-this */
+import { randomUUID } from 'crypto';
+import write from '../helpers/file.helpers';
 
-export type Events = 'info' | 'warning'| 'error'
+export type Events = 'info' | 'warning' | 'error';
 
 export interface ILogInputData {
-    initiator:string,
-    eventType:Events,
-    message:string,
+  initiator:string,
+  eventType:Events,
+  message:string,
 }
 
 export interface IObserver {
-    id:string
-    log(data: ILogInputData):void
-}
-
-class ConsoleObserver implements IObserver {
-
-    id:string;
-
-    constructor(){
-        this.id = randomUUID()
-    }
-
-    public log(data:ILogInputData): void {
-        const log = this.configureLog(data)
-        console.log(log)
-    }
-
-    private configureLog(data: ILogInputData){
-        const {initiator, eventType, message} = data
-        const timeStamp = new Date().toISOString()
-        return `${timeStamp}    ${initiator}    ${eventType}    ${message}`
-    }
-
+  id:string
+  log(data: ILogInputData):void
 }
 
 class FileObserver implements IObserver {
-    id:string
-    fileName:string
+  id:string;
 
-    constructor(fileName:string){
-        this.id = randomUUID()
-        this.fileName = fileName
-    }
+  fileName:string;
 
-    public log(data: ILogInputData): void {
-        const message = this.configureLog(data)
-        this.writeToFile(message)
-    }
+  constructor(fileName:string) {
+    this.id = randomUUID();
+    this.fileName = fileName;
+  }
 
-    private configureLog(data: ILogInputData){
-        const {initiator, eventType, message} = data
-        const timeStamp = new Date().toISOString()
-        return `${timeStamp}    initiator:${initiator}    eventType:${eventType}    ${message}\n`
-    }
+  public log(data: ILogInputData): void {
+    const message = this.configureLog(data);
+    this.writeToFile(message);
+  }
 
-    private writeToFile(message:string){
+  private configureLog(data: ILogInputData) {
+    const { initiator, eventType, message } = data;
+    const timeStamp = new Date().toISOString();
+    return `${timeStamp}    initiator:${initiator}    eventType:${eventType}    ${message}\n`;
+  }
 
-        write(this.fileName,message)
-    }
+  private writeToFile(message:string) {
+    write(this.fileName, message);
+  }
 }
-export {ConsoleObserver, FileObserver}
+export { FileObserver };

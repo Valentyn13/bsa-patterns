@@ -1,3 +1,5 @@
+/* eslint-disable react/function-component-definition */
+import React from 'react';
 import Add from '../../assets/icons/add.svg?react';
 import Copy from '../../assets/icons/copy.svg?react';
 import Delete from '../../assets/icons/delete.svg?react';
@@ -8,8 +10,8 @@ type Props = {
 };
 
 const iconNameToComponent: Record<
-  IconName,
-  React.FunctionComponent<React.SVGProps<SVGSVGElement>>
+IconName,
+React.FunctionComponent<React.SVGProps<SVGSVGElement>>
 > = {
   add: Add,
   copy: Copy,
@@ -22,4 +24,4 @@ const Icon: React.FC<Props> = ({ iconName }) => {
   return <IconComponent />;
 };
 
-export { Icon };
+export default Icon;

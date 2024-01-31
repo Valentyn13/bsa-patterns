@@ -8,4 +8,4 @@ const FooterContainer = styled.div`
   padding: 8px;
 `;
 
-export { FooterContainer };
+export default FooterContainer;

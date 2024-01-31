@@ -7,4 +7,4 @@ const Content = styled.div`
   flex-direction: column;
 `;
 
-export { Content };
+export default Content;

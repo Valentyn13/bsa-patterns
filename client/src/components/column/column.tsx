@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import { colors } from '@atlaskit/theme';
 import type {
   DraggableProvided,
@@ -5,15 +6,15 @@ import type {
 } from '@hello-pangea/dnd';
 import { Draggable } from '@hello-pangea/dnd';
 
+import React, { useContext } from 'react';
 import type { Card } from '../../common/types';
-import { CardsList } from '../card-list/card-list';
-import { DeleteButton } from '../primitives/delete-button';
-import { Splitter } from '../primitives/styled/splitter';
-import { Title } from '../primitives/title';
-import { Footer } from './components/footer';
-import { Container } from './styled/container';
-import { Header } from './styled/header';
-import { useContext } from 'react';
+import CardsList from '../card-list/card-list';
+import DeleteButton from '../primitives/delete-button';
+import Splitter from '../primitives/styled/splitter';
+import Title from '../primitives/title';
+import Footer from './components/footer';
+import Container from './styled/container';
+import Header from './styled/header';
 import { SocketContext } from '../../context/socket';
 import { CardEvent, ListEvent } from '../../common/enums';
 
@@ -24,21 +25,22 @@ type Props = {
   index: number;
 };
 
-export const Column = ({ listId, listName, cards, index }: Props) => {
-  const socket = useContext(SocketContext)
-
+export function Column({
+  listId, listName, cards, index,
+}: Props) {
+  const socket = useContext(SocketContext);
 
   const handleCreateCard = (name:string) => {
-    console.log(`List id:${listId}, card name:${name}`)
-    socket.emit(CardEvent.CREATE,listId,name)
-  }
+    console.log(`List id:${listId}, card name:${name}`);
+    socket.emit(CardEvent.CREATE, listId, name);
+  };
 
   const handleDeleteList = () => {
-    socket.emit(ListEvent.DELETE, listId)
-  }
-const handleTitleChange = (title:string) => {
-  socket.emit(ListEvent.RENAME, listId, title)
-}
+    socket.emit(ListEvent.DELETE, listId);
+  };
+  const handleTitleChange = (title:string) => {
+    socket.emit(ListEvent.RENAME, listId, title);
+  };
 
   return (
     <Draggable draggableId={listId} index={index}>
@@ -55,7 +57,6 @@ const handleTitleChange = (title:string) => {
               title={listName}
               fontSize="large"
               width={200}
-              listId={listId}
               isBold
             />
             <Splitter />
@@ -74,4 +75,6 @@ const handleTitleChange = (title:string) => {
       )}
     </Draggable>
   );
-};
+}
+
+export default Column;

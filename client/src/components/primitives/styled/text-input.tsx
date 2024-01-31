@@ -19,4 +19,4 @@ const TextInput = styled.textarea`
   }
 `;
 
-export { TextInput };
+export default TextInput;

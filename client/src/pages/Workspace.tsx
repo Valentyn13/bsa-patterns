@@ -1,5 +1,5 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import type {
-  DraggableLocation,
   DroppableProvided,
   DropResult,
 } from '@hello-pangea/dnd';
@@ -9,19 +9,19 @@ import React, { useContext, useEffect, useState } from 'react';
 import { CardEvent, ListEvent } from '../common/enums';
 import type { List } from '../common/types';
 import { Column } from '../components/column/column';
-import { ColumnCreator } from '../components/column-creator/column-creator';
+import ColumnCreator from '../components/column-creator/column-creator';
 import { SocketContext } from '../context/socket';
-import { reorderService } from '../services/reorder.service';
-import { Container } from './styled/container';
+import reorderService from '../services/reorder.service';
+import Container from './styled/container';
 
-export const Workspace = () => {
+function Workspace() {
   const [lists, setLists] = useState<List[]>([]);
 
   const socket = useContext(SocketContext);
 
   useEffect(() => {
-    socket.emit(ListEvent.GET, (lists: List[]) => setLists(lists));
-    socket.on(ListEvent.UPDATE, (lists: List[]) => setLists(lists));
+    socket.emit(ListEvent.GET, (Lists: List[]) => setLists(Lists));
+    socket.on(ListEvent.UPDATE, (Lists: List[]) => setLists(Lists));
 
     return () => {
       socket.removeAllListeners(ListEvent.UPDATE).close();
@@ -33,12 +33,11 @@ export const Workspace = () => {
       return;
     }
 
-    const source: DraggableLocation = result.source;
-    const destination: DraggableLocation = result.destination;
+    const { source } = result;
+    const { destination } = result;
 
-    const isNotMoved =
-      source.droppableId === destination.droppableId &&
-      source.index === destination?.index;
+    const isNotMoved = source.droppableId === destination.droppableId
+      && source.index === destination?.index;
 
     if (isNotMoved) {
       return;
@@ -65,34 +64,34 @@ export const Workspace = () => {
   };
 
   const handleCreateColumn = (name:string) => {
-    socket.emit(ListEvent.CREATE,name)
-  }
+    socket.emit(ListEvent.CREATE, name);
+  };
 
   return (
-    <React.Fragment>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="board" type="COLUMN" direction="horizontal">
-          {(provided: DroppableProvided) => (
-            <Container
-              className="workspace-container"
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-            >
-              {lists.map((list: List, index: number) => (
-                <Column
-                  key={list.id}
-                  index={index}
-                  listName={list.name}
-                  cards={list.cards}
-                  listId={list.id}
-                />
-              ))}
-              {provided.placeholder}
-              <ColumnCreator onCreateList={handleCreateColumn} />
-            </Container>
-          )}
-        </Droppable>
-      </DragDropContext>
-    </React.Fragment>
+    <DragDropContext onDragEnd={onDragEnd}>
+      <Droppable droppableId="board" type="COLUMN" direction="horizontal">
+        {(provided: DroppableProvided) => (
+          <Container
+            className="workspace-container"
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+          >
+            {lists.map((list: List, index: number) => (
+              <Column
+                key={list.id}
+                index={index}
+                listName={list.name}
+                cards={list.cards}
+                listId={list.id}
+              />
+            ))}
+            {provided.placeholder}
+            <ColumnCreator onCreateList={handleCreateColumn} />
+          </Container>
+        )}
+      </Droppable>
+    </DragDropContext>
   );
-};
+}
+
+export default Workspace;

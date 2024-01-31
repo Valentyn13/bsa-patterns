@@ -5,4 +5,4 @@ const TextContainer = styled.div`
   align-items: center;
 `;
 
-export { TextContainer };
+export default TextContainer;

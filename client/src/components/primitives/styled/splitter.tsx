@@ -4,4 +4,4 @@ const Splitter = styled.div`
   margin-right: 5px;
 `;
 
-export { Splitter };
+export default Splitter;

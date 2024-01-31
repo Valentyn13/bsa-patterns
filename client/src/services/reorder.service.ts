@@ -2,7 +2,7 @@ import type { DraggableLocation } from '@hello-pangea/dnd';
 
 import { Card, List } from '../common/types';
 
-export const reorderService = {
+const reorderService = {
   reorderLists(items: List[], startIndex: number, endIndex: number): List[] {
     const [removed] = items.splice(startIndex, 1);
     items.splice(endIndex, 0, removed);
@@ -15,10 +15,8 @@ export const reorderService = {
     source: DraggableLocation,
     destination: DraggableLocation,
   ): List[] {
-    const current: Card[] =
-      lists.find((list) => list.id === source.droppableId)?.cards || [];
-    const next: Card[] =
-      lists.find((list) => list.id === destination.droppableId)?.cards || [];
+    const current: Card[] = lists.find((list) => list.id === source.droppableId)?.cards || [];
+    const next: Card[] = lists.find((list) => list.id === destination.droppableId)?.cards || [];
     const target: Card = current[source.index];
 
     const isMovingInSameList = source.droppableId === destination.droppableId;
@@ -28,9 +26,9 @@ export const reorderService = {
       current.splice(destination.index, 0, removed);
       const reordered: Card[] = current;
 
-      return lists.map((list) =>
-        list.id === source.droppableId ? { ...list, cards: reordered } : list,
-      );
+      return lists.map((list) => (
+        list.id === source.droppableId ? { ...list, cards: reordered } : list
+      ));
     }
 
     const newLists = lists.map((list) => {
@@ -62,3 +60,5 @@ export const reorderService = {
     return cards.slice(0, index).concat(card).concat(cards.slice(index));
   },
 };
+
+export default reorderService;

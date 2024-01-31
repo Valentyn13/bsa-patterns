@@ -1,5 +1,6 @@
+import React from 'react';
 import { socket, SocketContext } from './context/socket';
-import { Workspace } from './pages/Workspace';
+import Workspace from './pages/Workspace';
 
 function App() {
   return (
@@ -9,4 +10,4 @@ function App() {
   );
 }
 
-export { App };
+export default App;

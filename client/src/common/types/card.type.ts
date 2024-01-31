@@ -5,4 +5,4 @@ type Card = {
   createdAt: Date;
 };
 
-export type { Card };
+export default Card;

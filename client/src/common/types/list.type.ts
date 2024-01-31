@@ -1,4 +1,4 @@
-import { Card } from './card.type';
+import Card from './card.type';
 
 type List = {
   id: string;
@@ -6,4 +6,4 @@ type List = {
   cards: Card[];
 };
 
-export type { List };
+export default List;
