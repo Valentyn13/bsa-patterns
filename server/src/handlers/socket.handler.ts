@@ -3,8 +3,9 @@ import { Server, Socket } from 'socket.io';
 import { ListEvent } from '../common/enums';
 import { Database } from '../data/database';
 import { ReorderService } from '../services/reorder.service';
+import { Subject } from '../observer/subject';
 
-abstract class SocketHandler {
+abstract class SocketHandler extends Subject {
   protected db: Database;
 
   protected reorderService: ReorderService;
@@ -12,6 +13,7 @@ abstract class SocketHandler {
   protected io: Server;
 
   public constructor(io: Server, db: Database, reorderService: ReorderService) {
+    super();
     this.io = io;
     this.db = db;
     this.reorderService = reorderService;
