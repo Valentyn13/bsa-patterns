@@ -37,7 +37,6 @@ class ProxyReorderLogger extends ReorderService {
       message += `${propAndValue[0]}:${propAndValue[1]}${TAB}`;
     });
     message += 'REORDER \n';
-    console.log(message);
     write(this.filePath, message);
   }
 

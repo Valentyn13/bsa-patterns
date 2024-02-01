@@ -14,6 +14,11 @@ class List {
     this.id = randomUUID();
   }
 
+  setName(name:string) {
+    this.name = name;
+    return this;
+  }
+
   setCards(cards: Card[]) {
     this.cards = cards;
 

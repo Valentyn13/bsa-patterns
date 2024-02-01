@@ -6,11 +6,10 @@ class Publisher implements ISubject {
 
   subscribe(observer:IObserver): void {
     const isExist = this.observers.find((obs) => obs.id === observer.id);
-    if (isExist) {
-      console.error('Observer with this id already exist');
-    } else {
+    if (!isExist) {
       this.observers.unshift(observer);
-      console.log(`Observer with id:${observer.id} successfully added`);
+    } else {
+      console.error(`Observer with id:${observer.id} already exist in observer list`);
     }
   }
 

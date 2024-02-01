@@ -16,6 +16,14 @@ class Card {
     this.id = randomUUID();
   }
 
+  setDescription(desc:string) {
+    this.description = desc;
+  }
+
+  setName(name:string) {
+    this.name = name;
+  }
+
   public clone() {
     return new Card(this.name, this.description);
   }

@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 /* eslint-disable class-methods-use-this */
 import type { Socket } from 'socket.io';
 
@@ -67,24 +66,31 @@ class CardHandler extends SocketHandler {
 
   public duplicateCard(listId:string, cardId:string) {
     const lists = this.db.getData();
-    const list = lists.find((listItem) => listItem.id === listId);
-    const index = list.cards.findIndex(((card) => card.id === cardId));
-    const card = list.cards.find((cardItem) => cardItem.id === cardId);
-    const duplicat = card.clone();
-    list.cards.splice(index + 1, 0, duplicat);
+
+    const updatedLists = lists.map((list) => (
+      list.id === listId ? this.duplicateCardInList(list, cardId) : list
+    ));
+    this.db.setData(updatedLists);
     this.updateLists();
     this.notifyObservers({ initiator: 'CardHandler.duplicateCard', eventType: 'info', message: `Card listId:${listId} cardId:${cardId} DUPLICATED` });
   }
 
+  private duplicateCardInList(list:List, cardId:string) {
+    const index = list.cards.findIndex(((card) => card.id === cardId));
+    const duplicat = list.cards[index].clone();
+    list.cards.splice(index + 1, 0, duplicat);
+    return list;
+  }
+
   private deleteCardFromList(list:List, cardId:string) {
-    list.cards = list.cards.filter((card) => card.id !== cardId);
+    list.setCards(list.cards.filter((card) => card.id !== cardId));
     return list;
   }
 
   private setCardDescriptionInList(list:List, cardId:string, description:string) {
     list.cards.map((card) => {
       if (card.id === cardId) {
-        card.description = description;
+        card.setDescription(description);
       }
       return card;
     });
@@ -94,7 +100,7 @@ class CardHandler extends SocketHandler {
   private setCardNameInList(list:List, cardId:string, name:string) {
     list.cards.map((card) => {
       if (card.id === cardId) {
-        card.name = name;
+        card.setName(name);
       }
       return card;
     });
