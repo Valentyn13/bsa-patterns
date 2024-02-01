@@ -38,7 +38,7 @@ class CardHandler extends SocketHandler {
 
     this.db.setData(updatedLists);
     this.updateLists();
-    this.notifyObservers({ initiator: 'CardHandler.setCardDescription', eventType: 'info', message: `Card listId:${listId} cardId:${cardId} CHANGED` });
+    this.notifyObservers({ initiator: 'CardHandler.setCardDescription', eventType: 'info', message: `Card listId:${listId} cardId:${cardId} DESCRIPTION CHANGED` });
   }
 
   public setCardName(listId:string, cardId:string, name:string) {

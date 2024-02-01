@@ -28,7 +28,7 @@ class ProxyReorderLogger extends ReorderService {
     this.filePath = filePath;
   }
 
-  private configureLog(props:ConfigureLogData) {
+  private createLog(props:ConfigureLogData) {
     let message = '';
     const TAB = '   ';
     const timeStamp = new Date().toISOString();
@@ -53,7 +53,7 @@ class ProxyReorderLogger extends ReorderService {
     sourceListId: string;
     destinationListId: string;
   }): List[] {
-    this.configureLog({
+    this.createLog({
       initiator: 'ReorderService.reorderCards', eventType: 'info', sourceIndex, destinationIndex, sourceListId, destinationListId,
     });
     return this.reorderService.reorderCards({
@@ -66,7 +66,7 @@ class ProxyReorderLogger extends ReorderService {
   }
 
   public reorder<T>(items: T[], startIndex: number, endIndex: number): T[] {
-    this.configureLog({
+    this.createLog({
       initiator: 'ReorderService.reorder', eventType: 'info', startIndex, endIndex,
     });
     return this.reorderService.reorder(items, startIndex, endIndex);

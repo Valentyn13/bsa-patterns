@@ -36,7 +36,7 @@ class ListHandler extends SocketHandler {
     ));
     this.db.setData(newList);
     this.updateLists();
-    this.notifyObservers({ initiator: 'ListHandler.setListTitle', eventType: 'info', message: `Title in list id:${listId} CHANGED` });
+    this.notifyObservers({ initiator: 'ListHandler.setListTitle', eventType: 'info', message: `List id:${listId}  TITLE CHANGED` });
   }
 
   private deleteList(listId:string) {
@@ -53,7 +53,7 @@ class ListHandler extends SocketHandler {
     const newList = new List(name);
     this.db.setData(lists.concat(newList));
     this.updateLists();
-    this.notifyObservers({ initiator: 'ListHandler.createList', eventType: 'info', message: `New list id:${newList.id} CREATED` });
+    this.notifyObservers({ initiator: 'ListHandler.createList', eventType: 'info', message: `List id:${newList.id} CREATED` });
   }
 }
 

@@ -9,8 +9,8 @@ import ListHandler from './handlers/list.handler';
 import ReorderService from './services/reorder.service';
 import formatDate from './helpers/date.helpers';
 import ProxyReorderLogger from './proxy/reorder-proxy-logger';
-import ConsoleObserver from './observer/console-observer';
-import FileObserver from './observer/file-observer';
+import ErrorLogObserver from './observer/error-observer';
+import InfoLogObserver from './observer/info-observer';
 
 const PORT = 3003;
 
@@ -35,8 +35,8 @@ if (process.env.NODE_ENV !== 'production') {
 const listHandler = new ListHandler(io, db, reorderService);
 const cardHandler = new CardHandler(io, db, reorderService);
 
-const consoleObserver = new ConsoleObserver('error');
-const fileObserver = new FileObserver('info', logPath);
+const consoleObserver = new ErrorLogObserver('error', logPath);
+const fileObserver = new InfoLogObserver('info', logPath);
 
 cardHandler.subscribe(consoleObserver);
 cardHandler.subscribe(fileObserver);
