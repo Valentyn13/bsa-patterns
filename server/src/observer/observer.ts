@@ -1,16 +1,19 @@
 import { randomUUID } from 'crypto';
 import write from '../helpers/file.helpers';
-import { ILogInputData, IObserver } from '../common/enums/observer.enum';
+import { Events, ILogInputData, IObserver } from '../common/enums/observer.enum';
 
 class FileObserver implements IObserver {
   id:string;
+
+  level: Events;
 
   private message:string = '';
 
   private fileName:string;
 
-  constructor(fileName:string) {
+  constructor(level:Events, fileName:string) {
     this.id = randomUUID();
+    this.level = level;
     this.fileName = fileName;
   }
 

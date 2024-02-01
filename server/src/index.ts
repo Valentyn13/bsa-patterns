@@ -35,8 +35,8 @@ if (process.env.NODE_ENV !== 'production') {
 const listHandler = new ListHandler(io, db, reorderService);
 const cardHandler = new CardHandler(io, db, reorderService);
 
-const consoleObserver = new ConsoleObserver();
-const fileObserver = new FileObserver(logPath);
+const consoleObserver = new ConsoleObserver('error');
+const fileObserver = new FileObserver('info', logPath);
 
 cardHandler.subscribe(consoleObserver);
 cardHandler.subscribe(fileObserver);

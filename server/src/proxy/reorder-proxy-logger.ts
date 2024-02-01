@@ -33,9 +33,9 @@ class ProxyReorderLogger extends ReorderService {
     const TAB = '   ';
     const timeStamp = new Date().toISOString();
     message += timeStamp + TAB;
-    for (const prop in props) {
-      message += `${prop}:${props[prop]}${TAB}`;
-    }
+    Object.entries(props).forEach((propAndValue) => {
+      message += `${propAndValue[0]}:${propAndValue[1]}${TAB}`;
+    });
     message += 'REORDER \n';
     console.log(message);
     write(this.filePath, message);

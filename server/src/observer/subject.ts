@@ -24,7 +24,9 @@ class Publisher implements ISubject {
   }
 
   notifyObservers(data:ILogInputData): void {
-    this.observers.forEach((observer) => observer.log(data));
+    const { eventType } = data;
+    const matchedObservers = this.observers.filter((obs) => obs.level === eventType);
+    matchedObservers.forEach((observer) => observer.log(data));
   }
 }
 

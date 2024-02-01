@@ -7,6 +7,7 @@ export interface ILogInputData {
 }
 
 export interface IObserver {
-  id:string
+  id:string;
+  level:Events;
   log(data: ILogInputData):void
 }

@@ -1,12 +1,15 @@
 /* eslint-disable class-methods-use-this */
 import { randomUUID } from 'crypto';
-import { ILogInputData, IObserver } from '../common/enums/observer.enum';
+import { Events, ILogInputData, IObserver } from '../common/enums/observer.enum';
 
 class ConsoleObserver implements IObserver {
   id:string;
 
-  constructor() {
+  level: Events;
+
+  constructor(level:Events) {
     this.id = randomUUID();
+    this.level = level;
   }
 
   public log(data:ILogInputData): void {
