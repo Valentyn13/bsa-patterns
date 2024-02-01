@@ -27,7 +27,7 @@ class CardHandler extends SocketHandler {
 
     this.db.setData(updatedLists);
     this.updateLists();
-    this.notifyObservers({ initiator: 'CardHandler.crateCard', eventType: 'info', message: `Card listId:${listId} cardId:${newCard.id} CARD WAS CREATED` });
+    this.notifyObservers({ initiator: 'CardHandler.crateCard', eventType: 'info', message: `Card listId:${listId} cardId:${newCard.id} CREATED` });
   }
 
   public setCardDescription(listId:string, cardId:string, description:string) {
@@ -39,7 +39,7 @@ class CardHandler extends SocketHandler {
 
     this.db.setData(updatedLists);
     this.updateLists();
-    this.notifyObservers({ initiator: 'CardHandler.setCardDescription', eventType: 'info', message: `Card listId:${listId} cardId:${cardId} CARD DESCRIPTION WAS CHANGED` });
+    this.notifyObservers({ initiator: 'CardHandler.setCardDescription', eventType: 'info', message: `Card listId:${listId} cardId:${cardId} CHANGED` });
   }
 
   public setCardName(listId:string, cardId:string, name:string) {
@@ -51,7 +51,7 @@ class CardHandler extends SocketHandler {
 
     this.db.setData(updatedLists);
     this.updateLists();
-    this.notifyObservers({ initiator: 'CardHandler.setCardName', eventType: 'info', message: `Card listId:${listId} cardId:${cardId} CARD NAME WAS CHANGED` });
+    this.notifyObservers({ initiator: 'CardHandler.setCardName', eventType: 'info', message: `Card listId:${listId} cardId:${cardId} NAME CHANGED` });
   }
 
   public deleteCard(listId:string, cardId:string) {
@@ -62,7 +62,7 @@ class CardHandler extends SocketHandler {
 
     this.db.setData(updatedLists);
     this.updateLists();
-    this.notifyObservers({ initiator: 'CardHandler.deleteCard', eventType: 'info', message: `Card listId:${listId} cardId:${cardId} CARD WAS DELTED` });
+    this.notifyObservers({ initiator: 'CardHandler.deleteCard', eventType: 'info', message: `Card listId:${listId} cardId:${cardId} DELTED` });
   }
 
   public duplicateCard(listId:string, cardId:string) {
@@ -73,7 +73,7 @@ class CardHandler extends SocketHandler {
     const duplicat = card.clone();
     list.cards.splice(index + 1, 0, duplicat);
     this.updateLists();
-    this.notifyObservers({ initiator: 'CardHandler.duplicateCard', eventType: 'info', message: `Card listId:${listId} cardId:${cardId} CARD WAS DUPLICATED` });
+    this.notifyObservers({ initiator: 'CardHandler.duplicateCard', eventType: 'info', message: `Card listId:${listId} cardId:${cardId} DUPLICATED` });
   }
 
   private deleteCardFromList(list:List, cardId:string) {
@@ -122,7 +122,7 @@ class CardHandler extends SocketHandler {
     });
     this.db.setData(reordered);
     this.updateLists();
-    this.notifyObservers({ initiator: 'CardHandler.reorderCards', eventType: 'info', message: 'CARD WAS REORDERED' });
+    this.notifyObservers({ initiator: 'CardHandler.reorderCards', eventType: 'info', message: 'CARDS REORDERED' });
   }
 }
 

@@ -1,22 +1,17 @@
-/* eslint-disable consistent-return */
-import { ILogInputData, IObserver } from './observer';
+import { ILogInputData, IObserver } from '../common/enums/observer.enum';
+import ISubject from '../common/enums/subject.enum';
 
-interface ISubject {
-  subscribe(observer:IObserver):void
-  unsubscribe(observer:IObserver):void
-  notifyObservers(data:ILogInputData):void
-}
-
-class Subject implements ISubject {
+class Publisher implements ISubject {
   protected observers: IObserver[] = [];
 
   subscribe(observer:IObserver): void {
     const isExist = this.observers.find((obs) => obs.id === observer.id);
     if (isExist) {
-      return console.error('Observer with this id already exist');
+      console.error('Observer with this id already exist');
+    } else {
+      this.observers.unshift(observer);
+      console.log(`Observer with id:${observer.id} successfully added`);
     }
-    this.observers.unshift(observer);
-    console.log(`Observer with id:${observer.id} successfully added`);
   }
 
   unsubscribe(observer:IObserver): void {
@@ -33,4 +28,4 @@ class Subject implements ISubject {
   }
 }
 
-export default Subject;
+export default Publisher;

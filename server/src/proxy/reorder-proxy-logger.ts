@@ -1,6 +1,6 @@
+import { Events } from '../common/enums/observer.enum';
 import List from '../data/models/list';
 import write from '../helpers/file.helpers';
-import { Events } from '../observer/observer';
 import ReorderService from '../services/reorder.service';
 
 type ConfigureLogData = {

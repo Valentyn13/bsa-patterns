@@ -3,9 +3,9 @@ import { Server, Socket } from 'socket.io';
 import { ListEvent } from '../common/enums';
 import Database from '../data/database';
 import ReorderService from '../services/reorder.service';
-import Subject from '../observer/subject';
+import Publisher from '../observer/subject';
 
-abstract class SocketHandler extends Subject {
+abstract class SocketHandler extends Publisher {
   protected db: Database;
 
   protected reorderService: ReorderService;

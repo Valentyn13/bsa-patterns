@@ -26,7 +26,7 @@ class ListHandler extends SocketHandler {
     );
     this.db.setData(reorderedLists);
     this.updateLists();
-    this.notifyObservers({ initiator: 'ListHandler.reorderList', eventType: 'info', message: 'Lists was reordered' });
+    this.notifyObservers({ initiator: 'ListHandler.reorderList', eventType: 'info', message: 'Lists REORDERED' });
   }
 
   private setListTitle(listId:string, title:string) {
@@ -34,7 +34,7 @@ class ListHandler extends SocketHandler {
     const list = lists.find((listItem) => listItem.id === listId);
     list.name = title;
     this.updateLists();
-    this.notifyObservers({ initiator: 'ListHandler.setListTitle', eventType: 'info', message: `Title in list with id:${listId} was changed` });
+    this.notifyObservers({ initiator: 'ListHandler.setListTitle', eventType: 'info', message: `Title in list id:${listId} CHANGED` });
   }
 
   private deleteList(listId:string) {
@@ -42,7 +42,7 @@ class ListHandler extends SocketHandler {
     const newList = lists.filter((list) => list.id !== listId);
     this.db.setData(newList);
     this.updateLists();
-    this.notifyObservers({ initiator: 'ListHandler.deleteList', eventType: 'info', message: `List with id:${listId} was deleted` });
+    this.notifyObservers({ initiator: 'ListHandler.deleteList', eventType: 'info', message: `List id:${listId} DELETED` });
   }
 
   private createList(name: string): void {
@@ -50,7 +50,7 @@ class ListHandler extends SocketHandler {
     const newList = new List(name);
     this.db.setData(lists.concat(newList));
     this.updateLists();
-    this.notifyObservers({ initiator: 'ListHandler.createList', eventType: 'info', message: `New list with id:${newList.id} was created` });
+    this.notifyObservers({ initiator: 'ListHandler.createList', eventType: 'info', message: `New list id:${newList.id} CREATED` });
   }
 }
 

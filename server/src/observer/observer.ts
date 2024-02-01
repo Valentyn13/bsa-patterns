@@ -1,24 +1,13 @@
-/* eslint-disable class-methods-use-this */
 import { randomUUID } from 'crypto';
 import write from '../helpers/file.helpers';
-
-export type Events = 'info' | 'warning' | 'error';
-
-export interface ILogInputData {
-  initiator:string,
-  eventType:Events,
-  message:string,
-}
-
-export interface IObserver {
-  id:string
-  log(data: ILogInputData):void
-}
+import { ILogInputData, IObserver } from '../common/enums/observer.enum';
 
 class FileObserver implements IObserver {
   id:string;
 
-  fileName:string;
+  private message:string = '';
+
+  private fileName:string;
 
   constructor(fileName:string) {
     this.id = randomUUID();
@@ -33,11 +22,12 @@ class FileObserver implements IObserver {
   private configureLog(data: ILogInputData) {
     const { initiator, eventType, message } = data;
     const timeStamp = new Date().toISOString();
-    return `${timeStamp}    initiator:${initiator}    eventType:${eventType}    ${message}\n`;
+    this.message = `${timeStamp}    initiator:${initiator}    eventType:${eventType}    ${message}\n`;
+    return this.message;
   }
 
   private writeToFile(message:string) {
     write(this.fileName, message);
   }
 }
-export { FileObserver };
+export default FileObserver;

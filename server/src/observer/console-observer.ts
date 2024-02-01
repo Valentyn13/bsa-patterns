@@ -1,6 +1,6 @@
 /* eslint-disable class-methods-use-this */
 import { randomUUID } from 'crypto';
-import { IObserver, ILogInputData } from './observer';
+import { ILogInputData, IObserver } from '../common/enums/observer.enum';
 
 class ConsoleObserver implements IObserver {
   id:string;
