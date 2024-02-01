@@ -7,7 +7,7 @@ class ErrorLogObserver extends Observer {
   public log(data:ILogInputData): void {
     const message = this.configureLog(data);
     this.writeToFile(message);
-    console.log(message);
+    console.error(message);
   }
 
   private configureLog(data: ILogInputData) {
