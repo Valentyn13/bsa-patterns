@@ -5,6 +5,7 @@ import { CardEvent } from '../common/enums';
 import Card from '../data/models/card';
 import SocketHandler from './socket.handler';
 import List from '../data/models/list';
+import isStringEmpty from '../helpers/validation.helpers';
 
 class CardHandler extends SocketHandler {
   public handleConnection(socket: Socket): void {
@@ -17,52 +18,85 @@ class CardHandler extends SocketHandler {
   }
 
   public createCard(listId: string, cardName: string): void {
-    const newCard = new Card(cardName, '');
-    const lists = this.db.getData();
+    try {
+      if (isStringEmpty(cardName)) {
+        throw new Error('Emply card name is not allowed');
+      }
+      const newCard = new Card(cardName, '');
+      const lists = this.db.getData();
 
-    const updatedLists = lists.map((list) => (
-      list.id === listId ? list.setCards(list.cards.concat(newCard)) : list
-    ));
+      const updatedLists = lists.map((list) => (
+        list.id === listId ? list.setCards(list.cards.concat(newCard)) : list
+      ));
 
-    this.db.setData(updatedLists);
-    this.updateLists();
-    this.notifyObservers({
-      initiator: 'CardHandler.crateCard',
-      eventType: 'info',
-      message: `Card listId:${listId} cardId:${newCard.id} CREATED`,
-    });
+      this.db.setData(updatedLists);
+      this.updateLists();
+      this.notifyObservers({
+        initiator: 'CardHandler.crateCard',
+        eventType: 'info',
+        message: `Card listId:${listId} cardId:${newCard.id} CREATED`,
+      });
+    } catch (error) {
+      this.notifyObservers({
+        initiator: 'CardHandler.crateCard',
+        eventType: 'error',
+        message: `ERROR MESSAGE=${error.message}\n`,
+      });
+    }
   }
 
   public setCardDescription(listId:string, cardId:string, description:string) {
-    const lists = this.db.getData();
+    try {
+      if (isStringEmpty(description)) {
+        throw new Error('Emply card description is not allowed');
+      }
+      const lists = this.db.getData();
 
-    const updatedLists = lists.map((list) => (
-      list.id === listId ? this.setCardDescriptionInList(list, cardId, description) : list
-    ));
+      const updatedLists = lists.map((list) => (
+        list.id === listId ? this.setCardDescriptionInList(list, cardId, description) : list
+      ));
 
-    this.db.setData(updatedLists);
-    this.updateLists();
-    this.notifyObservers({
-      initiator: 'CardHandler.setCardDescription',
-      eventType: 'info',
-      message: `Card listId:${listId} cardId:${cardId} DESCRIPTION CHANGED`,
-    });
+      this.db.setData(updatedLists);
+      this.updateLists();
+      this.notifyObservers({
+        initiator: 'CardHandler.setCardDescription',
+        eventType: 'info',
+        message: `Card listId:${listId} cardId:${cardId} DESCRIPTION CHANGED`,
+      });
+    } catch (error) {
+      this.notifyObservers({
+        initiator: 'CardHandler.setCardDescription',
+        eventType: 'error',
+        message: `ERROR MESSAGE=${error.message}\n`,
+      });
+    }
   }
 
   public setCardName(listId:string, cardId:string, name:string) {
-    const lists = this.db.getData();
+    try {
+      if (isStringEmpty(name)) {
+        throw new Error('Empty card name is not allowed');
+      }
+      const lists = this.db.getData();
 
-    const updatedLists = lists.map((list) => (
-      list.id === listId ? this.setCardNameInList(list, cardId, name) : list
-    ));
+      const updatedLists = lists.map((list) => (
+        list.id === listId ? this.setCardNameInList(list, cardId, name) : list
+      ));
 
-    this.db.setData(updatedLists);
-    this.updateLists();
-    this.notifyObservers({
-      initiator: 'CardHandler.setCardName',
-      eventType: 'info',
-      message: `Card listId:${listId} cardId:${cardId} NAME CHANGED`,
-    });
+      this.db.setData(updatedLists);
+      this.updateLists();
+      this.notifyObservers({
+        initiator: 'CardHandler.setCardName',
+        eventType: 'info',
+        message: `Card listId:${listId} cardId:${cardId} NAME CHANGED`,
+      });
+    } catch (error) {
+      this.notifyObservers({
+        initiator: 'CardHandler.setCardName',
+        eventType: 'error',
+        message: `ERROR MESSAGE=${error.message}\n`,
+      });
+    }
   }
 
   public deleteCard(listId:string, cardId:string) {
@@ -98,6 +132,7 @@ class CardHandler extends SocketHandler {
   private duplicateCardInList(list:List, cardId:string) {
     const index = list.cards.findIndex(((card) => card.id === cardId));
     const duplicat = list.cards[index].clone();
+    duplicat.name += ' [copy]';
     list.cards.splice(index + 1, 0, duplicat);
     return list;
   }
