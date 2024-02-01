@@ -27,6 +27,9 @@ function Title({
 
   const handleEnterKeyDown = (e:React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
+      if (value.trim() === '') {
+        setValue(title);
+      }
       onChange(value);
       e.currentTarget.blur();
     }

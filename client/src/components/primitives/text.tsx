@@ -21,6 +21,9 @@ function Text({ onChange, text }: Props) {
 
   const handleEnterKeyDown = (e:React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter') {
+      if (value.trim() === '') {
+        setValue(text);
+      }
       onChange(value);
       e.currentTarget.blur();
     }

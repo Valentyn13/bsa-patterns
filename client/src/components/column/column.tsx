@@ -31,7 +31,6 @@ export function Column({
   const socket = useContext(SocketContext);
 
   const handleCreateCard = (name:string) => {
-    console.log(`List id:${listId}, card name:${name}`);
     socket.emit(CardEvent.CREATE, listId, name);
   };
 
