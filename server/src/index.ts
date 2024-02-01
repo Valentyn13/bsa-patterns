@@ -7,10 +7,10 @@ import Database from './data/database';
 import CardHandler from './handlers/card.handler';
 import ListHandler from './handlers/list.handler';
 import ReorderService from './services/reorder.service';
-import FileObserver from './observer/observer';
 import formatDate from './helpers/date.helpers';
 import ProxyReorderLogger from './proxy/reorder-proxy-logger';
 import ConsoleObserver from './observer/console-observer';
+import FileObserver from './observer/file-observer';
 
 const PORT = 3003;
 
